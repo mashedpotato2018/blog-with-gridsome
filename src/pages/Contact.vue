@@ -33,6 +33,7 @@
                     class="form-control"
                     id="name"
                     type="text"
+                    v-model="form.name"
                     placeholder="Enter your name..."
                     data-sb-validations="required"
                   />
@@ -43,6 +44,7 @@
                   <input
                     class="form-control"
                     id="email"
+                    v-model="form.email"
                     type="email"
                     placeholder="Enter your email..."
                     data-sb-validations="required,email"
@@ -58,6 +60,7 @@
                   <input
                     class="form-control"
                     id="phone"
+                    v-model="form.phone"
                     type="tel"
                     placeholder="Enter your phone number..."
                     data-sb-validations="required"
@@ -70,6 +73,7 @@
                 </div>
                 <div class="form-floating">
                   <textarea
+                    v-model="form.message"
                     class="form-control"
                     id="message"
                     placeholder="Enter your message here..."
@@ -105,7 +109,8 @@
                 </div>
                 <!-- Submit Button-->
                 <button
-                  class="btn btn-primary text-uppercase disabled"
+                  class="btn btn-primary text-uppercase"
+                  @click.prevent="onSubmit"
                   id="submitButton"
                   type="submit"
                 >Send</button>
@@ -119,8 +124,37 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'ContactPage',
+  data() {
+    return {
+      form: {
+        name: '',
+        emali: '',
+        phone: '',
+        message: '',
+      },
+    }
+  },
+  methods: {
+    async onSubmit() {
+      console.log(111111)
+      try {
+        const { data } = await axios({
+          url: 'http://localhost:1337/contacts',
+          method: 'post',
+          data: this.form,
+        })
+        console.log(data)
+        this.form = { name: '', emali: '', phone: '', message: '' }
+        alert('发送成功')
+      } catch (error) {
+        console.log(error)
+        alert('发送失败,请重试')
+      }
+    },
+  },
 }
 </script>
 
