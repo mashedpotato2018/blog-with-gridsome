@@ -139,10 +139,9 @@ export default {
   },
   methods: {
     async onSubmit() {
-      console.log(111111)
       try {
         const { data } = await axios({
-          url: 'http://localhost:1337/contacts',
+          url: `${this.GRIDSOME_API_URL}/contacts`,
           method: 'post',
           data: this.form,
         })
